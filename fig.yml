@@ -7,10 +7,11 @@ wp:
     - /opt/SHARE:/media
   net: "bridge"
   environment:
-    FACTER_TEST1: "test var 1"
-    FACTER_TEST2: "test var 2"
-    FACTER_TEST3: "test var 3"
-    FACTER_TEST4: "test var 4"
+    FACTER_W3D_DOMAIN: "wptest.md2k.net"
+    FACTER_W3D_NGINX_PORT: "8888"
+    FACTER_W3D_NGINX_SERVER_NAME: "['wptest.md2k.net']"
+    FACTER_W3D_WWW_ROOT: "/var/www/wpblog"
+    FACTER_W3D_PROJECT_NAME: "dev"
   tty: true
   stdin_open: true
   detach: true
