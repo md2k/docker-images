@@ -12,9 +12,6 @@ MAINTAINER Yevgen Flerko md2k@md2k.net
 # Mysql predefined passwrod, but can be overriden on container run
 #ENV W3_DB_PASS xkThETQNM7D6Yf
 
-# How to install deb from url
-# URL='http://path.to/my.deb'; FILE=`mktemp`; wget "$URL" -qO $FILE && sudo dpkg -i $FILE; rm $FILE
-
 # Install.
 RUN \
   sed -i 's/# \(.*multiverse$\)/\1/g' /etc/apt/sources.list && \
@@ -22,7 +19,11 @@ RUN \
   apt-get -y upgrade && \
   apt-get install -y build-essential pwgen && \
   apt-get install -y software-properties-common && \
-  apt-get install -y byobu curl git htop atop man unzip vim nano wget elinks strace mc
+  apt-get install -y byobu curl git htop atop man unzip vim nano wget elinks strace && \
+  apt-get install -yq mysql-client mysql-common mysql-server mysql-utilities && \
+#  echo "mysql-server mysql-server/root_password password $W3_DB_PASS" | debconf-set-selections && echo "mysql-server mysql-server/root_password_again password $W#_DP_PASS" | debconf-set-selections && apt-get install -y && \
+  apt-get install -y php5-fpm php5-cli php5-common php5-gd php5-xmlrpc php5-apcu php5-curl php5-memcache php5-mysqlnd php5-mysqlnd-ms php5-mcrypt php5-json php5-imagick php5-dev php-pear php5-tidy php5-imap && \
+  apt-get install -y nginx
 
 # Install sshd
 RUN \
@@ -31,28 +32,11 @@ RUN \
   echo 'root:screencast' | chpasswd && \
   sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# Install Puppet
-RUN \
-  export PUPPET_REPO="https://apt.puppetlabs.com/puppetlabs-release-"`lsb_release -a | grep Codename | awk '{ print $2 }'`".deb" && \
-  FILE=`mktemp`; wget "$PUPPET_REPO" -qO $FILE && sudo dpkg -i $FILE; rm -f $FILE && \
-  apt-get update && \
-  apt-get install -y puppet facter
-
-# Install docker for use as client to HOST Docer API
-RUN apt-get install -y docker.io
-
-# TODO:
-# Temporary workaround when we link external puppet source
-# for production we want do this by fetching data from git
-RUN \
-  rm -rf /etc/puppet && \
-  ln -s /media/Puppet/puppet-w3/ /etc/puppet
-
 # Clean Up
 RUN rm -rf /var/lib/apt/lists/*
 
 # Set File/Dir  permissions
-#RUN chown -R www-data:www-data /usr/share/nginx/
+RUN chown -R www-data:www-data /usr/share/nginx/
 
 # Install pip and template engine
 #RUN pip install pystache
@@ -65,7 +49,6 @@ ADD root/.bashrc /root/.bashrc
 ADD root/.bash_aliases /root/.bash_aliases
 ADD root/.gitconfig /root/.gitconfig
 ADD root/.scripts /root/.scripts
-ADD root/.config /root/.config
 ADD run.sh /root/run.sh
 RUN chmod +x /root/run.sh
 

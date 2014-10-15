@@ -1,0 +1,59 @@
+#!/bin/bash
+
+#### ENV Varibales
+
+## Mysql Setup
+DB_USER=${W3_DB_USER:-wordpress}
+DB_PASS=${W3_DB_PASS:-`date | md5sum | head -c10`}
+DB_NAME=${W3_DB_NAME:-wordpress}
+DATA_DIR=${W3_DATA_DIR:-/var/lib/mysql}
+
+# Create Mysql Data dit if nont exists
+mkdir -p $DATA_DIR
+
+# Change bind address for mysql server to global
+#sed -i 's/127.0.0.1/0.0.0.0/' /etc/mysql/my.cnf
+sed -i -e"s/^bind-address\s*=\s*127.0.0.1/bind-address = 0.0.0.0/" /etc/mysql/my.cnf
+
+# start MySQL
+service mysql start
+
+# Add User and Grant Privileges
+echo "GRANT ALL ON *.* TO ${DB_USER}@'%' IDENTIFIED BY '${DB_PASS}' WITH GRANT OPTION; FLUSH PRIVILEGES;" | mysql -uroot
+# Create Database
+echo "CREATE DATABASE ${DB_NAME} CHARACTER SET utf8;"  | mysql -uroot
+
+echo "========================================================================"
+echo "MySQL Server Ready:"
+echo ""
+echo " Mysql User : ${DB_USER} "
+echo " Mysql Pass : ${DB_PASS} "
+echo " WP Database: ${DB_NAME} "
+echo ""
+echo "Please remember to change the above password as soon as possible!"
+echo "MySQL user 'root' has no password but only allows local connections"
+echo "========================================================================"
+
+## Setup wp-cli
+wget -c "https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" -O /sbin/wp
+chmod +x /sbin/wp
+wget -c "https://github.com/wp-cli/wp-cli/raw/master/utils/wp-completion.bash" -O /root/.wp-completion.bash
+
+# Install WP, Create WP Config
+/sbin/wp --allow-root --path=/home/wp core download --version=${W3_WP_VER:-latest}
+/sbin/wp --allow-root --path=/home/wp core config --dbname="${DB_NAME}" --dbuser="${DB_USER}" --dbpass="${DB_PASS}" --dbhost="localhost"
+/sbin/wp --allow-root --path=/home/wp core install --url="${W3_WP_HOST:-dockerwp.auctollo.net}" --title="${W3_WP_TITLE:-Some dummy Title}" --admin_user='admin' --admin_password='qwerty123' --admin_email='alert@w3-edge.com'
+## Nginx Setup
+
+
+# Nginx Start
+service nginx start
+
+# PHP FPM start
+service php5-fpm start
+
+ip addr
+
+## Done
+/bin/bash
+

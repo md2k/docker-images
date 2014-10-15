@@ -1,0 +1,19 @@
+wp:
+  build: .
+  ports:
+    - "8880:80"
+    - "3346:3306"
+  volumes:
+    - /opt/SHARE:/media
+  net: "bridge"
+  environment:
+    FACTER_TEST1: "test var 1"
+    FACTER_TEST2: "test var 2"
+    FACTER_TEST3: "test var 3"
+    FACTER_TEST4: "test var 4"
+  tty: true
+  stdin_open: true
+  detach: true
+#  hostname: "mycont"
+#  domainname: "md2k.net"
+  privileged: false

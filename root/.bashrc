@@ -44,3 +44,6 @@ source ~/.scripts/git-completion.sh
 
 # Z
 source ~/.scripts/z.sh
+
+# WP-Cli
+source ~/.wp-completion.bash
