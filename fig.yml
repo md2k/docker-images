@@ -9,7 +9,7 @@ wp:
   environment:
     FACTER_W3D_DOMAIN: "wptest.md2k.net"
     FACTER_W3D_NGINX_PORT: "8888"
-    FACTER_W3D_NGINX_SERVER_NAME: "['wptest.md2k.net']"
+#    FACTER_W3D_NGINX_SERVER_NAME: "['wptest.md2k.net']"
     FACTER_W3D_WWW_ROOT: "/var/www/wpblog"
     FACTER_W3D_PROJECT_NAME: "dev"
   tty: true

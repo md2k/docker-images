@@ -13,6 +13,7 @@ cont_data['Hostname'] = data['Config']['Hostname']
 cont_data['Ip'] = data['NetworkSettings']['IPAddress']
 cont_data['Gw'] = data['NetworkSettings']['Gateway']
 cont_data['Image'] = data['Config']['Image']
+cont_data['server_name'] = os.environ['FACTER_W3D_DOMAIN']
 
 #print json.dumps(cont_data, ensure_ascii=false)
 
