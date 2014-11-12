@@ -56,6 +56,8 @@ RUN rm -rf /var/lib/apt/lists/*
 
 # Install pip and template engine
 #RUN pip install pystache
+#RUN easy_install GitPython
+RUN pip install GitPython
 
 ## Set Listening ports which will be availible only for linked containers and not externally
 #EXPOSE 80 3306

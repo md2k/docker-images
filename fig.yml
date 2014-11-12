@@ -22,6 +22,8 @@ wp:
     ## WP Related
     FACTER_W3D_WP_MULTISITE:    "0"
     FACTER_W3D_WP_VERSION:      "3.5.2"
+    FACTER_W3D_DB_SRC:          "http://technical.a.sandbox.auctollo.net/default_a.sql"
+    FACTER_W3D_MEDIA_SRC:       ""
     ## RVM RUBY
     FACTER_W3D_RUBY_VER:        "1.9.3"
     ## PhantomJS and CasperJS
