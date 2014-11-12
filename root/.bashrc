@@ -46,4 +46,13 @@ source ~/.scripts/git-completion.sh
 source ~/.scripts/z.sh
 
 # WP-Cli
-source ~/.wp-completion.bash
+if [ -f $HOME/.wp-completion.bash ]
+then
+  . $HOME/.wp-completion.bash
+fi
+
+# Aliases
+if [ -f $HOME/.bash_aliases ]
+then
+  . $HOME/.bash_aliases
+fi

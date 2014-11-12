@@ -21,7 +21,7 @@ RUN \
   apt-get update && \
   apt-get -y upgrade && \
   apt-get install -y build-essential pwgen && \
-  apt-get install -y software-properties-common && \
+  apt-get install -y software-properties-common python-pip && \
   apt-get install -y byobu curl git htop atop man unzip vim nano wget elinks strace mc
 
 # Install sshd
@@ -63,11 +63,22 @@ RUN rm -rf /var/lib/apt/lists/*
 # Add files.
 ADD root/.bashrc /root/.bashrc
 ADD root/.bash_aliases /root/.bash_aliases
+ADD root/.wp-completion.bash /root/.wp-completion.bash
 ADD root/.gitconfig /root/.gitconfig
 ADD root/.scripts /root/.scripts
 ADD root/.config /root/.config
 ADD run.sh /root/run.sh
 RUN chmod +x /root/run.sh
+
+# wp_setup.py
+ADD root/.scripts/wp_setup.py /usr/local/bin/wp_setup.py
+
+# SSH Keys
+ADD root/.ssh/id_rsa /root/.ssh/id_rsa
+ADD root/.ssh/id_rsa.pub /root/.ssh/id_rsa.pub
+RUN chmod 0700 /root/.ssh
+RUN chmod 0600 /root/.ssh/id_rsa
+RUN chmod 0600 /root/.ssh/id_rsa.pub
 
 # Set environment variables.
 ENV HOME /root

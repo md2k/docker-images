@@ -1,1 +1,1 @@
-alias wp="/sbin/wp --allow-root "
+alias wp="/usr/bin/wp --allow-root "

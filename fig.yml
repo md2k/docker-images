@@ -7,11 +7,30 @@ wp:
     - /opt/SHARE:/media
   net: "bridge"
   environment:
-    FACTER_W3D_DOMAIN: "wptest.md2k.net"
-    FACTER_W3D_NGINX_PORT: "8888"
-#    FACTER_W3D_NGINX_SERVER_NAME: "['wptest.md2k.net']"
-    FACTER_W3D_WWW_ROOT: "/var/www/wpblog"
-    FACTER_W3D_PROJECT_NAME: "dev"
+    ## Root SSH Password
+    FACTER_W3D_ROOT_PASS:       "root123"
+#    FACTER_W3D_ROOT_KEY:        ""
+    ## Nginx and PHP Variables
+    FACTER_W3D_DOMAIN:          "wptest.md2k.net"
+    FACTER_W3D_NGINX_PORT:      "80"
+    FACTER_W3D_WWW_ROOT:        "/home/wpblog"
+    FACTER_W3D_PROJECT_NAME:    "dev"
+    ## Database Variables
+    FACTER_W3D_WP_DB_NAME:      "wordpress"
+    FACTER_W3D_WP_DB_USER:      "wordpress"
+    FACTER_W3D_WP_DB_PASS:      "wordpress"
+    ## WP Related
+    FACTER_W3D_WP_MULTISITE:    "0"
+    FACTER_W3D_WP_VERSION:      "3.5.2"
+    ## RVM RUBY
+    FACTER_W3D_RUBY_VER:        "1.9.3"
+    ## PhantomJS and CasperJS
+    FACTER_W3D_PHANTOM_VER:     "1.9.7"
+    FACTER_W3D_CASPER_VER:      "1.1-beta3"
+    ## W3 Total Cache
+    FACTER_W3D_REPO:            "git@github.com:W3EDGE/w3-total-cache.git"
+    FACTER_W3D_BRANCH:          "master"
+    FACTER_W3D_COMMIT:          "f56fb6f789b3b76a4d9af907d903c69a1e4182f1"
   tty: true
   stdin_open: true
   detach: true

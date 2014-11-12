@@ -6,7 +6,7 @@ docker -H tcp://`netstat -nr | grep '^0\.0\.0\.0' | awk '{print $2}'`:4243 inspe
 
 ## run puppet on each container start/up/initital run
 apt-get update
-puppet apply -v --parser future --config_version=/etc/puppet/scripts/get-config-version --modulepath=/etc/puppet/environments/docker/modules/ /etc/puppet/environments/docker/manifests
+puppet apply -d -v --parser future --config_version=/etc/puppet/scripts/get-config-version --modulepath=/etc/puppet/environments/docker/modules/ /etc/puppet/environments/docker/manifests
 #rm -rf /var/lib/apt/lists/*
 
 ## Done
